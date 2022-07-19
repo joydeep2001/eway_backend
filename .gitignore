@@ -1,0 +1,6 @@
+.env
+*.c
+*.out
+node_modules/
+.vscode/
+*.sample.*
