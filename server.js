@@ -25,8 +25,7 @@ if (!config.get("jwtPrivateKey")) {
 app.use(
   cors({
     origin: [
-      /\.engineersway\.in$/,
-      "engineersway.in",
+      /\.?engineersway\.in$/,
       "engineersway.vercel.app",
     ],
     credentials: true,
