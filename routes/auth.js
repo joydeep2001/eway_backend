@@ -63,7 +63,10 @@ router.get(
       googleId: req.user.googleId,
     };
     const token = jwt.sign(payload, process.env.jwtPrivateKey);
-    res.redirect("http://localhost:3000/Redirect/?token=" + token);
+    if (process.env.NODE_ENV === "development")
+      res.redirect("http://localhost:3000/Redirect/?token=" + token);
+    else res.redirect("https://engineersway.in/Redirect/?token=" + token);
+
     console.log("call back");
   }
 );
