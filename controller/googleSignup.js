@@ -37,7 +37,7 @@ passport.use(
           googleId: profile.id,
           name: profile.displayName,
           email: profile.email,
-          isVerified: true,
+          isActivated: true,
         });
         user = await User.create(Savinguser);
       }
