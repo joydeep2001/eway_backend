@@ -38,6 +38,7 @@ passport.use(
           name: profile.displayName,
           email: profile.email,
           isActivated: true,
+          username: profile.email,
         });
         user = await User.create(Savinguser);
       }
