@@ -6,9 +6,9 @@ const { User } = require("../models/user");
 const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
-const googleStrategy = require("passport-google-oauth20");
 const Joi = require("joi");
+const { authTokenFromGoogleId } = require("../controller/googleSignup");
+const passport = require("passport");
 
 function validate(user) {
   const schema = Joi.object({
@@ -47,35 +47,25 @@ router.get("/activate/:token", async (req, res) => {
       );
   });
 });
-let userProfileInfo = {};
-// passport.use(
-//   new googleStrategy(
-//     {
-//       clientID: process.env.CLIENTID,
-//       clientSecret: process.env.CLIENTSECRET,
-//       callbackURL: process.env.CALLBACKURL,
-//     },
-//     (accessToken, refreshToken, profile, done) => {
-//       console.log(profile.displayName);
-//       userProfileInfo = profile;
-//       return done(null, profile);
-//     }
-//   )
-// );
-// passport.serializeUser((user, done) => {
-//   done(null, user.id);
-// });
-// passport.deserializeUser((user, done) => {
-//   done(null, user);
-// });
-// router.get(
-//   "/google",
-//   passport.authenticate("google", {
-//     scope: ["profile", "email"],
-//   })
-// );
 
-// router.get("/google/callback", passport.authenticate("google"), (req, res) => {
-//   res.redirect(`${config.get("frontEndURL")}`);
-// });
+router.post("/authtokenFromGoogleId/", authTokenFromGoogleId);
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["email", "profile"] })
+);
+
+router.get(
+  "/google/callback/",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  function (req, res) {
+    console.log(req.user.googleId);
+    const payload = {
+      googleId: req.user.googleId,
+    };
+    const token = jwt.sign(payload, process.env.jwtPrivateKey);
+    res.redirect("http://localhost:3000/Redirect/?token=" + token);
+    console.log("call back");
+  }
+);
+
 module.exports = router;

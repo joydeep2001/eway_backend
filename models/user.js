@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 mongoose
   .connect(process.env.mongoConnectionString)
   .then(() => console.log("connected to mongodb"))
-  .catch(err => console.log("couldnot connect"));
+  .catch((err) => console.log("couldnot connect"));
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true, minlength: 5, maxlength: 50 },
   email: {
@@ -22,8 +22,8 @@ const userSchema = new mongoose.Schema({
     minlength: 3,
     maxlength: 16,
   },
-  password: { type: String, required: true, minlength: 5, maxlength: 1024 },
-  googleLoginId: String,
+  password: { type: String, required: false, minlength: 5, maxlength: 1024 },
+  googleId: String,
   isActivated: { type: Boolean, default: true },
 });
 

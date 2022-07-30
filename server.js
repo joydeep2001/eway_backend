@@ -1,6 +1,8 @@
 if (process.env.NODE_ENV === "development") {
   require("dotenv").config();
 }
+console.log("SERVER", process.env.NODE_ENV);
+
 const {
   writeFile,
   getFileExtension,
@@ -24,10 +26,7 @@ if (!config.get("jwtPrivateKey")) {
 
 app.use(
   cors({
-    origin: [
-      /\.?engineersway\.in$/,
-      "engineersway.vercel.app",
-    ],
+    origin: [/\.?engineersway\.in$/, "engineersway.vercel.app"],
     credentials: true,
   })
 );
@@ -59,4 +58,4 @@ app.use("/allUsers", allUsers);
 //   });
 // }
 
-app.listen(process.env.PORT);
+app.listen(process.env.PORT || 3001);
